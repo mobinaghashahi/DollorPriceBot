@@ -28,7 +28,7 @@ foreach ($row as $value) {
         $data=preg_replace('/<\/span> <span class="info-change">/'," ",$data);
         $data=preg_replace('/<\/span><\/span>/'," ",$data);
 
-        $data="قیمت دلار ".$data." تومان";
+        $data="قیمت دلار ".$data." ریال";
 
         sendMessage($chatId,$data);
     }
@@ -52,7 +52,7 @@ foreach ($row as $value) {
     if (preg_match('/<span data-col="info.last_trade.PDrCotVal">/',$value)) {
         $data=preg_replace('/<span data-col="info.last_trade.PDrCotVal">/',null,$value);
         $data=preg_replace('/<\/span>/',null,$data);
-        $data="قیمت لیر ".$data." تومان";
+        $data="قیمت لیر ".$data." ریال";
         sendMessage($chatId,$data);
 
         break;
