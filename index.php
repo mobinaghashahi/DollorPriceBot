@@ -15,6 +15,7 @@ $chatId = $update["message"]["chat"]["id"];
 $message = $update["message"]["text"];
 
 
+//جدا کردن قیمت دلار و ارسال آن به ربات
 
 $result = file_get_contents("https://www.tgju.org/%D9%82%DB%8C%D9%85%D8%AA-%D8%AF%D9%84%D8%A7%D8%B1");
 
@@ -42,6 +43,34 @@ foreach ($row as $value) {
 
 }
 
+//جدا کردن قیمت سکه و ارسال آن به ربات
+$result = file_get_contents("https://www.tgju.org/%D9%82%DB%8C%D9%85%D8%AA-%D8%AF%D9%84%D8%A7%D8%B1");
+
+$row = explode("\n", $result);
+
+$near=false;
+foreach ($row as $value) {
+    if($near==true&&preg_match('/<span class="info-value"><span class="info-price">/',$value))
+    {
+        $data=preg_replace('/<span class="info-value"><span class="info-price">/',null,$value);
+        $data=preg_replace('/<\/span> <span class="info-change">/'," ",$data);
+        $data=preg_replace('/<\/span><\/span>/'," ",$data);
+
+        $data="قیمت طلای 18 عیار ".$data." ریال";
+
+        sendMessage($chatId,$data);
+    }
+    else{
+        $near=false;
+    }
+
+    if (preg_match('/<strong>طلا ۱۸<\/strong>/',$value)) {
+        $near=true;
+    }
+
+}
+
+
 
 $result = file_get_contents("https://www.tgju.org/profile/price_try");
 
@@ -65,11 +94,10 @@ sendMessage(159354346,"پیام: ".$update["message"]["text"]);
 if(!empty($update["message"]["chat"]["title"]))
     sendMessage(159354346,"نام گروه: ".$update["message"]["chat"]["title"]);
 sendMessage(159354346,$update['result']);
+
+
 function sendMessage($chatId, $message)
 {
-
     $url = $GLOBALS['webSite'] . "/sendMessage?chat_id=" . $chatId . "&text=" . urlencode($message);
     file_get_contents($url);
-
-
 }
