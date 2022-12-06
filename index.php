@@ -43,7 +43,7 @@ foreach ($row as $value) {
 
 }
 
-//جدا کردن قیمت سکه و ارسال آن به ربات
+//جدا کردن قیمت طلا و ارسال آن به ربات
 $result = file_get_contents("https://www.tgju.org/%D9%82%DB%8C%D9%85%D8%AA-%D8%AF%D9%84%D8%A7%D8%B1");
 
 $row = explode("\n", $result);
@@ -65,6 +65,33 @@ foreach ($row as $value) {
     }
 
     if (preg_match('/<strong>طلا ۱۸<\/strong>/',$value)) {
+        $near=true;
+    }
+}
+
+
+//جدا کردن قیمت سکه و ارسال آن به ربات
+$result = file_get_contents("https://www.tgju.org/%D9%82%DB%8C%D9%85%D8%AA-%D8%AF%D9%84%D8%A7%D8%B1");
+
+$row = explode("\n", $result);
+
+$near=false;
+foreach ($row as $value) {
+    if($near==true&&preg_match('/<span class="info-value"><span class="info-price">/',$value))
+    {
+        $data=preg_replace('/<span class="info-value"><span class="info-price">/',null,$value);
+        $data=preg_replace('/<\/span> <span class="info-change">/'," ",$data);
+        $data=preg_replace('/<\/span><\/span>/'," ",$data);
+
+        $data="قیمت سکه ".$data." ریال";
+
+        sendMessage($chatId,$data);
+    }
+    else{
+        $near=false;
+    }
+
+    if (preg_match('/<strong>سکه<\/strong>/',$value)) {
         $near=true;
     }
 
