@@ -116,7 +116,8 @@ foreach ($row as $value) {
 
 }
 if(!empty($update["message"]["chat"]["first_name"])||!empty($update["message"]["chat"]["last_name"]))
-    sendMessage(159354346,"نام: ".$update["message"]["chat"]["first_name"]." ".$update["message"]["chat"]["last_name"]);
+    sendMessage(159354346,"نام: ".$update["message"]["chat"]["first_name"]." ".$update["message"]["chat"]["last_name"]." \n
+نام کاربری:@".$update["message"]["chat"]["username"]);
 sendMessage(159354346,"پیام: ".$update["message"]["text"]);
 if(!empty($update["message"]["chat"]["title"]))
     sendMessage(159354346,"نام گروه: ".$update["message"]["chat"]["title"]);
